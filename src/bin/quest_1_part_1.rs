@@ -1,5 +1,5 @@
 fn main() {
-    let creatures = include_str!("../inputs/quest_1.txt");
+    let creatures = include_str!("../inputs/quest_1_part_1.txt");
     let result = num_potions(creatures);
     println!("We need {result} potions.");
 }
