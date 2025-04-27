@@ -1,6 +1,6 @@
 use std::{ops::Not, str::FromStr};
 
-use regex::Regex;
+use aho_corasick::AhoCorasick;
 
 fn main() {
     let input = include_str!("../inputs/quest_2_part_1.txt");
@@ -26,12 +26,8 @@ pub struct Challenge {
 
 impl Challenge {
     pub fn count_runes(&self) -> usize {
-        let regex = Regex::new(&self.words.join("|")).unwrap();
-        // THIS DOESN'T WORK. `find_iter()` returns _non-overlapping_ matches, so we
-        // undercount.
-        // TODO: Try the `needle` crate, which provides `boyer-moore`.
-        // Thanks to @JustusFluegel for pointing out the existence of the `needle` crate.
-        regex.find_iter(&self.text).count()
+        let matcher = AhoCorasick::new(&self.words).unwrap();
+        matcher.find_overlapping_iter(&self.text).count()
     }
 }
 
